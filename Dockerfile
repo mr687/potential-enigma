@@ -8,11 +8,11 @@ RUN apk add --no-cache --virtual .gyp \
 	g++ \
 	&& ln -sf python3 /usr/bin/python
 
-COPY package.json yarn.lock ./
+COPY --chown=node:node package.json yarn.lock ./
 RUN yarn install --production
 
-COPY . .
-
+USER node
+COPY --chown=node:node . .
 ENV NODE_ENV production
 
 CMD ["node", "mine.js"]
